@@ -2,7 +2,7 @@
 
 NAME = fractol
 CC = gcc
-FLAGS = -Wall -Werror -Wextra -O2 -O0 -g
+FLAGS = -Wall -Werror -Wextra -O3 -O0 -g
 LIBRARIES = -lmlx -lft -L$(LIBFT_DIRECTORY) -L$(MINILIBX_DIRECTORY) -framework OpenGL -framework AppKit
 INCLUDES = -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS) -I$(MINILIBX_HEADERS)
 

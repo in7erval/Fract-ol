@@ -18,10 +18,11 @@ t_picture	*picture_init(void)
 
 	picture = (t_picture *)malloc(sizeof(t_picture));
 	picture->mlx = mlx_init();
-	picture->win = mlx_new_window(picture->mlx, WIDTH, HEIGHT, "FRACTOL");
+	picture->win = mlx_new_window(picture->mlx, WIDTH, HEIGHT, "Fract'ol");
 	picture->img = mlx_new_image(picture->mlx, WIDTH, HEIGHT);
 	picture->data_addr = mlx_get_data_addr(picture->img, &(picture->bits_per_pixel),
 										   &(picture->size_line), &(picture->endian));
+	picture->bits_per_pixel /= 8;
 	ft_bzero(picture->data_addr, WIDTH * HEIGHT * (picture->bits_per_pixel / 8));
 	return (picture);
 }

@@ -116,25 +116,21 @@ t_pixel	julia(int x, int y, t_fractol *fractol)
 
 void *calc_map(void *threadarg)
 {
-	int			id;
-	t_fractol	*fractol;
 	t_thread	*my_data;
 	int	x;
 	int y;
 
 	my_data = (t_thread *)threadarg;
-	id = my_data->thread_id;
-	fractol = my_data->fractol;
-	y = (HEIGHT / NUM_PROC) * id;
-	while (y < (HEIGHT / NUM_PROC) * (id + 1))
+	y = HEIGHT / NUM_PROC * my_data->thread_id;
+	while (y < HEIGHT / NUM_PROC * (my_data->thread_id + 1))
 	{
 		x = 0;
 		while (x < WIDTH)
 		{
-			if (fractol->fract == JULIA)
-				fractol->pixel_data[y * WIDTH + x] = julia(x, y, fractol);
-			if (fractol->fract == MANDELBROT)
-				fractol->pixel_data[y * WIDTH + x] = mandelbrot(x, y, fractol);
+			if (my_data->fractol->fract == JULIA)
+				my_data->fractol->pixel_data[y * WIDTH + x] = julia(x, y, my_data->fractol);
+			if (my_data->fractol->fract == MANDELBROT)
+				my_data->fractol->pixel_data[y * WIDTH + x] = mandelbrot(x, y, my_data->fractol);
 			x++;
 		}
 		y++;
@@ -146,25 +142,24 @@ void			draw_map(t_fractol *fractol)
 {
 	int			i;
 	int			j;
-	pthread_t	threads[NUM_PROC];
-	t_thread	threads_data[NUM_PROC];
+	t_process	*p;
 
+	p = &fractol->process;
 	i = 0;
 	while (i < NUM_PROC)
 	{
-		threads_data[i].thread_id = i;
-		threads_data[i].fractol = fractol;
-		if (pthread_create(&threads[i], NULL, calc_map, (void *)&threads_data[i]))
+		p->threads_data[i].thread_id = i;
+		p->threads_data[i].fractol = fractol;
+		if (pthread_create(p->threads + i, NULL, calc_map, &(p->threads_data[i])))
 			error("ERROR; return code from pthread_create()\n");
 		i++;
 	}
 	i = 0;
 	while (i < NUM_PROC)
 	{
-		pthread_join(threads[i], NULL);
+		pthread_join(p->threads[i], NULL);
 		i++;
 	}
-	ft_bzero(fractol->picture->data_addr, WIDTH * HEIGHT * (fractol->picture->bits_per_pixel / 8));
 	j = 0;
 	while (j < HEIGHT)
 	{

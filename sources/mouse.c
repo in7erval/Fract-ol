@@ -16,12 +16,16 @@ void		zoom(int x, int y, t_fractol *fractol, double zoom)
 {
 	double w;
 	double h;
+	double nw;
+	double nh;
 
 	w = (fractol->z_max.x - fractol->z_min.x) * fractol->zoom;
 	h = (fractol->z_max.y - fractol->z_min.y) * fractol->zoom;
+	nw = (fractol->z_max.x - fractol->z_min.x) * (fractol->zoom * zoom);
+	nh = (fractol->z_max.y - fractol->z_min.y) * (fractol->zoom * zoom);
 	fractol->zoom *= zoom;
-	fractol->offset.x -= ((double)x / WIDTH) * w * (zoom - 1);
-	fractol->offset.y -= ((double)y / HEIGHT) * h * (zoom - 1);
+	fractol->offset.x -= ((double)x / WIDTH) * (nw - w);
+	fractol->offset.y -= ((double)y / HEIGHT) * (nh - h);
 }
 
 int			mouse_press(int button, int x, int y, t_fractol *fractol)

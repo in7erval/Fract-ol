@@ -18,7 +18,7 @@
 # include <stdio.h>
 # include <math.h>
 # include <pthread.h>
-# define NUM_PROC	10
+# define NUM_PROC	8
 # define KEY_ESC 	53
 # define KEY_1_UP 	18
 # define KEY_2_UP 	19
@@ -71,17 +71,17 @@
 
 # define BACKGROUND 		0x222222
 # define MENU_BACKGROUND	0x222222
-# define HEADER_COLOR 	0x808080
-# define MENU_CLR 		0xbbbbbb
-# define DEF_CLR 		0x0099EE
+# define HEADER_COLOR 		0x808080
+# define MENU_CLR 			0xbbbbbb
+# define DEF_CLR 			0x0099EE
 
-# define RED			0xff0000
-# define ORANGE		0xff4f00
-# define YELLOW		0xf7ff00
-# define GREEN 		0x0bda51
-# define LIGHT_BLUE	0x1e90ff
-# define BLUE       	0x0099EE
-# define VIOLET     	0x4d0092
+# define RED				0xff0000
+# define ORANGE				0xff4f00
+# define YELLOW				0xf7ff00
+# define GREEN 				0x0bda51
+# define LIGHT_BLUE			0x1e90ff
+# define BLUE       		0x0099EE
+# define VIOLET     		0x4d0092
 
 # define DARK_VIOLET        0x1f1b24
 # define BACKGROUND_SURFACE 0x121212
@@ -163,7 +163,21 @@ typedef	struct		s_picture
 
 }					t_picture;
 
-typedef struct		s_fractol
+typedef	struct		s_fractol t_fractol;
+
+typedef struct		s_thread
+{
+	t_fractol		*fractol;
+	int 			thread_id;
+}					t_thread;
+
+typedef	struct		s_process
+{
+	pthread_t		threads[NUM_PROC];
+	t_thread		threads_data[NUM_PROC];
+}					t_process;
+
+struct		s_fractol
 {
 	int				mouse_status;
 	t_picture		*picture;
@@ -178,20 +192,17 @@ typedef struct		s_fractol
 	double			zoom;
 	t_complex		offset;
 	int				cycle;
-}					t_fractol;
+	t_process		process;
+};
 
 typedef struct		s_palette
 {
-	uint8_t		count;
-	int			cycle;
-	int			colors[16];
+	uint8_t			count;
+	int				cycle;
+	int				colors[32];
 }					t_palette;
 
-typedef struct		s_thread
-{
-	t_fractol		*fractol;
-	int 			thread_id;
-}					t_thread;
+
 
 void				ft_puterr(char *str);
 int					min(int a, int b);
