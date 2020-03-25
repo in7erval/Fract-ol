@@ -15,7 +15,7 @@
 
 void	print_usage(void)
 {
-	error("Usage: ./fractol NAME_OF_FRACTAL\nNAME_OF_FRACTAL:\n   ->Julia\n   ->Mandelbrot\n   ->Unnamed1\n   ->Unnamed2\n");
+	error("Usage: ./fractol NAME_OF_FRACTAL\nNAME_OF_FRACTAL:\n    ->Julia\n    ->Mandelbrot\n    ->Unnamed1\n    ->Unnamed2\n");
 }
 
 int		find_fractal(char *argv)
