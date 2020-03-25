@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#ifndef FRACTOL_H
+# define FRACTOL_H
 # include "mlx.h"
 # include "libft.h"
 # include <stdlib.h>
@@ -63,8 +63,8 @@
 # define KEY_C		8
 # define KEY_S		1
 
-# define WIDTH 				1000
-# define HEIGHT				1000
+# define WIDTH 				800
+# define HEIGHT				800
 # define HEIGHT_OF_HEADER 	30
 # define MENU_WIDTH			400
 # define MENU_HEIGHT 		420
@@ -123,11 +123,10 @@
 # define COLOR1 0
 # define COLOR2 1
 
-# define JULIA 			1
-# define MANDELBROT 	2
-
-# define K	200
-# define R	4
+# define JULIA 			0
+# define MANDELBROT 	1
+# define UNNAMED1		2
+# define UNNAMED2		3
 
 # define ZOOM 1.1
 
@@ -160,7 +159,8 @@ typedef	struct		s_picture
 	int				bits_per_pixel;
 	int				size_line;
 	int				endian;
-
+	int				width;
+	int 			height;
 }					t_picture;
 
 typedef	struct		s_fractol t_fractol;
@@ -193,6 +193,8 @@ struct		s_fractol
 	t_complex		offset;
 	int				cycle;
 	t_process		process;
+	double			r;
+	int 			k;
 };
 
 typedef struct		s_palette
@@ -202,12 +204,14 @@ typedef struct		s_palette
 	int				colors[32];
 }					t_palette;
 
-
+typedef t_pixel (*ft_fract)(int x, int y, t_fractol *fractol);
 
 void				ft_puterr(char *str);
 int					min(int a, int b);
 t_fractol			*fractol_init(t_picture *picture, int name);
-void				draw_map(t_fractol *fractol);
+void				draw(t_fractol *fractol);
+void				*calculation(void *threadarg);
+void				init_threads(t_fractol *fractol);
 t_point				new_point(int x, int y, int color);
 void				put_pixel(t_picture *picture, t_point p);
 void				put_line(t_picture *picture, t_point p0, t_point p1);
@@ -219,21 +223,13 @@ int					mouse_press(int button, int x, int y, t_fractol *fdf);
 int					mouse_release(int button, int x, int y, t_fractol *fdf);
 int					mouse_move(int x, int y, t_fractol *fdf);
 void				mlx_hooks(t_fractol *fractol);
-void				show_program(t_fractol *fractol);
-void				show_menu(t_fractol *fractol);
-void				put_rectangles(t_fractol *fractol);
-int					ft_isnumber(char *str, int base);
 void				error(char *s);
-void				rotation(int keycode, t_fractol *fractol);
-void				change_proj(int keycode, t_fractol *fractol);
-void				zoom_and_move(int keycode, t_fractol *fractol);
-void				deal_color(int keycode, t_fractol *fractol);
-int					darkmode_color(double percent);
-int					rainbow_color(double percent);
-int					default_color(double percent);
-int					test_color(double percent);
-t_picture			*picture_init(void);
+t_picture			*picture_init(char *str, int width, int height);
 t_pixel				mandelbrot(int x, int y, t_fractol *fractol);
 t_pixel				julia(int x, int y, t_fractol *fractol);
+t_pixel				unnamed1(int x, int y, t_fractol *fractol);
+t_pixel				unnamed2(int x, int y, t_fractol *fractol);
 void				zoom(int x, int y, t_fractol *fractol, double zoom);
+int					linear_color(int i, t_palette *p);
+int					get_linear_color(t_pixel p, t_fractol *fractol);
 #endif

@@ -14,8 +14,8 @@
 
 void			put_pixel(t_picture *picture, t_point p)
 {
-	if (p.x >= 0 && p.x < WIDTH && p.y >= 0 && p.y < HEIGHT)
-		*(int *)(picture->data_addr + (p.x + p.y * WIDTH) * picture->bits_per_pixel) = p.color;
+	if (p.x >= 0 && p.x < picture->width && p.y >= 0 && p.y < picture->height)
+		*(int *)(picture->data_addr + (p.x + p.y * picture->width) * picture->bits_per_pixel) = p.color;
 }
 
 static void		action(t_point *p, int sign[3], int v[2], int *f)

@@ -25,7 +25,9 @@ SOURCES_LIST = main.c \
  			primitive_draw.c \
  			mouse.c \
  			ctrls.c \
- 			init.c
+ 			init.c \
+ 			fractals.c \
+ 			color.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 
 OBJECTS_DIRECTORY = objects/

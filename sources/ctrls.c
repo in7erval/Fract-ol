@@ -50,20 +50,40 @@ void	color(int keycode, t_fractol *fractol)
 		fractol->color = keycode - 17;
 }
 
+void		reset(t_fractol *fractol)
+{
+	fractol->c.x = 0;
+	fractol->c.y = 0;
+	fractol->zoom = 1;
+	fractol->offset = (t_complex){.x = 0, .y = 0};
+	fractol->r = 4;
+	fractol->k = 32;
+}
+
 int		deal_key(int keycode, t_fractol *fractol)
 {
 	if (keycode == KEY_ESC)
 		exit(0);
 	if (keycode == KEY_PLUS)
-		zoom(WIDTH / 2, HEIGHT / 2, fractol, 1 / ZOOM);
+		zoom(fractol->picture->width / 2, fractol->picture->height / 2, fractol, 1 / ZOOM);
 	if (keycode == KEY_MINUS)
-		zoom(WIDTH / 2, HEIGHT / 2, fractol, ZOOM);
+		zoom(fractol->picture->width / 2, fractol->picture->height / 2, fractol, ZOOM);
 	if (keycode == KEY_UP || keycode == KEY_DOWN || keycode == KEY_LEFT || keycode == KEY_RIGHT)
 		move(keycode, fractol);
 	if (keycode >= KEY_1_UP && keycode <= KEY_5_UP)
 		color(keycode, fractol);
 	if (keycode == KEY_C)
 		fractol->cycle = (fractol->cycle == 1) ? 0 : 1;
-	draw_map(fractol);
+	if (keycode == KEY_R)
+		reset(fractol);
+	if (keycode == KEY_W && fractol->k < 1000)
+		fractol->k++;
+	if (keycode == KEY_S && fractol->k > 0)
+		fractol->k--;
+	if (keycode == KEY_D)
+		fractol->r -= 0.1;
+	if (keycode == KEY_E)
+		fractol->r += 0.1;
+	draw(fractol);
 	return (keycode);
 }

@@ -15,7 +15,7 @@
 
 void	print_usage(void)
 {
-	error("Usage: ./fractol NAME_OF_FRACTAL\nNAME_OF_FRACTAL:\n   ->Julia\n   ->Mandelbrot\n   ->ADD_FRACTAL!!!!!!\n");
+	error("Usage: ./fractol NAME_OF_FRACTAL\nNAME_OF_FRACTAL:\n   ->Julia\n   ->Mandelbrot\n   ->Unnamed1\n   ->Unnamed2\n");
 }
 
 int		find_fractal(char *argv)
@@ -24,7 +24,11 @@ int		find_fractal(char *argv)
 		return (JULIA);
 	if (!ft_strcmp(argv, "Mandelbrot") || !ft_strcmp(argv, "mandelbrot"))
 		return (MANDELBROT);
-	return (0);
+	if (!ft_strcmp(argv, "Unnamed1") || !ft_strcmp(argv, "unnamed1"))
+		return (UNNAMED1);
+	if (!ft_strcmp(argv, "Unnamed2") || !ft_strcmp(argv, "unnamed2"))
+		return (UNNAMED2);
+	return (-1);
 }
 
 int		main(int argc, char **argv)
@@ -35,11 +39,13 @@ int		main(int argc, char **argv)
 
 	if (argc != 2)
 		print_usage();
-	if ((name = find_fractal(argv[1])) == 0)
+	if ((name = find_fractal(argv[1])) == -1)
 		error("Please, give me existed fractal...\n");
-	picture = picture_init();
-	fractol = fractol_init(picture, name);
-	draw_map(fractol);
+	if (!(picture = picture_init("Fract'ol", WIDTH, HEIGHT)))
+		error("Picture couldn't initialize...\n");
+	if (!(fractol = fractol_init(picture, name)))
+		error("Fractol couldn't initialize...\n");
+	draw(fractol);
 	mlx_hooks(fractol);
 	mlx_loop(picture->mlx);
 	return (0);
