@@ -12,7 +12,7 @@
 
 #include "fractol.h"
 
-t_picture	*picture_init(char *name, int width, int height)
+t_picture		*picture_init(char *name, int width, int height)
 {
 	t_picture	*picture;
 
@@ -32,41 +32,22 @@ t_picture	*picture_init(char *name, int width, int height)
 	return (picture);
 }
 
-void		init_z(t_fractol *f, int name)
+static void		init_z(t_fractol *f)
 {
-	if (name == MANDELBROT)
-	{
-
-		f->z_max = (t_complex){.x = 2.0, .y = 2.0};
-		f->z_min = (t_complex){.x = -2.0, .y = -2.0};
-	}
-	if (name == JULIA)
-	{
-		f->z_max = (t_complex){.x = 2.0, .y = 2.0};
-		f->z_min = (t_complex){.x = -2.0, .y = -2.0};
-	}
-	if (name == UNNAMED1)
-	{
-
-		f->z_max = (t_complex){.x = 2.0, .y = 2.0};
-		f->z_min = (t_complex){.x = -2.0, .y = -2.0};
-	}
-	if (name == UNNAMED2)
-	{
-		f->z_max = (t_complex){.x = 2.0, .y = 2.0};
-		f->z_min = (t_complex){.x = -2.0, .y = -2.0};
-	}
+	f->z_max = (t_complex){.x = 2.0, .y = 2.0};
+	f->z_min = (t_complex){.x = -2.0, .y = -2.0};
 }
 
-t_fractol	*fractol_init(t_picture *picture, int name)
+t_fractol		*fractol_init(t_picture *picture, int name)
 {
 	t_fractol	*fractol;
 
 	if (!(fractol = (t_fractol *)malloc(sizeof(t_fractol))))
 		return (NULL);
-	fractol->pixel_data = (t_pixel *)malloc(sizeof(t_pixel) * picture->height * picture->width);
+	fractol->pixel_data = (t_pixel *)malloc(sizeof(t_pixel)
+	* picture->height * picture->width);
 	fractol->picture = picture;
-	init_z(fractol, name);
+	init_z(fractol);
 	fractol->c.x = 0;
 	fractol->c.y = 0;
 	fractol->mouse_status = NOTPRESSED;

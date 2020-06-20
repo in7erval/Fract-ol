@@ -53,18 +53,25 @@ int			mouse_release(int button, int x, int y, t_fractol *fractol)
 
 int			mouse_move(int x, int y, t_fractol *fractol)
 {
-
 	fractol->mouse_prevpos = fractol->mouse_pos;
 	fractol->mouse_pos = (t_complex){.x = x, .y = y};
 	if (fractol->fract != MANDELBROT)
-	{
-		fractol->c.x = ((double) x / fractol->picture->width) * (fractol->z_max.x - fractol->z_min.x) * fractol->zoom + fractol->z_min.x + fractol->offset.x;
-		fractol->c.y = ((double) y / fractol->picture->height) * (fractol->z_max.y - fractol->z_min.y) * fractol->zoom + fractol->z_min.y + fractol->offset.y;
-	}
+		fractol->c = (t_complex){((double)x / fractol->picture->width) *
+					(fractol->z_max.x - fractol->z_min.x) * fractol->zoom
+					+ fractol->z_min.x + fractol->offset.x, ((double)y /
+					fractol->picture->height) * (fractol->z_max.y -
+					fractol->z_min.y) * fractol->zoom + fractol->z_min.y
+					+ fractol->offset.y};
 	if (fractol->mouse_status == PRESSED_LEFT)
 	{
-		fractol->offset.x += (double)(fractol->mouse_prevpos.x - fractol->mouse_pos.x) / fractol->picture->width * (fractol->z_max.x - fractol->z_min.x) * fractol->zoom;
-		fractol->offset.y += (double)(fractol->mouse_prevpos.y - fractol->mouse_pos.y) / fractol->picture->height * (fractol->z_max.y - fractol->z_min.y) * fractol->zoom;
+		fractol->offset.x += (double)(fractol->mouse_prevpos.x -
+				fractol->mouse_pos.x) / fractol->picture->width *
+				(fractol->z_max.x - fractol->z_min.x)
+				* fractol->zoom;
+		fractol->offset.y += (double)(fractol->mouse_prevpos.y -
+				fractol->mouse_pos.y) / fractol->picture->height *
+				(fractol->z_max.y - fractol->z_min.y)
+				* fractol->zoom;
 	}
 	draw(fractol);
 	return (0);

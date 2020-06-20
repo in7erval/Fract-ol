@@ -25,6 +25,7 @@ SOURCES_LIST = main.c \
  			primitive_draw.c \
  			mouse.c \
  			ctrls.c \
+ 			ctrls_help.c \
  			init.c \
  			fractals.c \
  			color.c

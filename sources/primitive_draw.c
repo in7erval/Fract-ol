@@ -15,7 +15,8 @@
 void			put_pixel(t_picture *picture, t_point p)
 {
 	if (p.x >= 0 && p.x < picture->width && p.y >= 0 && p.y < picture->height)
-		*(int *)(picture->data_addr + (p.x + p.y * picture->width) * picture->bits_per_pixel) = p.color;
+		*(int *)(picture->data_addr + (p.x + p.y * picture->width) *
+		picture->bits_per_pixel) = p.color;
 }
 
 static void		action(t_point *p, int sign[3], int v[2], int *f)
@@ -55,8 +56,8 @@ void			put_line(t_picture *picture, t_point p0, t_point p1)
 	while (p.x != p1.x || p.y != p1.y)
 	{
 		action(&p, sign, v, &f);
-		p.color = get_color(p0.color, p1.color, sqrt(pow((p.x - p0.x), 2) + pow((p.y - p0.y), 2)) / length);
+		p.color = get_color(p0.color, p1.color, sqrt(pow((p.x - p0.x), 2) +
+		pow((p.y - p0.y), 2)) / length);
 		put_pixel(picture, p);
 	}
 }
-

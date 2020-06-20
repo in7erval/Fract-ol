@@ -12,10 +12,15 @@
 
 #include "fractol.h"
 
-
 void	print_usage(void)
 {
-	error("Usage: ./fractol NAME_OF_FRACTAL\nNAME_OF_FRACTAL:\n    ->Julia\n    ->Mandelbrot\n    ->Unnamed1\n    ->Unnamed2\n");
+	error("Usage: ./fractol NAME_OF_FRACTAL\n"
+	"NAME_OF_FRACTAL:\n"
+	"    ->Julia\n"
+	"    ->Mandelbrot\n"
+	"    ->Heart\n"
+	"    ->Mystery\n"
+	"    ->Unnamed\n");
 }
 
 int		find_fractal(char *argv)
@@ -24,10 +29,12 @@ int		find_fractal(char *argv)
 		return (JULIA);
 	if (!ft_strcmp(argv, "Mandelbrot") || !ft_strcmp(argv, "mandelbrot"))
 		return (MANDELBROT);
-	if (!ft_strcmp(argv, "Unnamed1") || !ft_strcmp(argv, "unnamed1"))
-		return (UNNAMED1);
-	if (!ft_strcmp(argv, "Unnamed2") || !ft_strcmp(argv, "unnamed2"))
-		return (UNNAMED2);
+	if (!ft_strcmp(argv, "Heart") || !ft_strcmp(argv, "heart"))
+		return (HEART);
+	if (!ft_strcmp(argv, "Mystery") || !ft_strcmp(argv, "mystery"))
+		return (MYSTERY);
+	if (!ft_strcmp(argv, "Unnamed") || !ft_strcmp(argv, "unnamed"))
+		return (UNNAMED);
 	return (-1);
 }
 
@@ -35,7 +42,7 @@ int		main(int argc, char **argv)
 {
 	t_fractol	*fractol;
 	t_picture	*picture;
-	int 		name;
+	int			name;
 
 	if (argc != 2)
 		print_usage();

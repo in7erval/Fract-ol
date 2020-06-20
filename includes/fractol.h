@@ -125,8 +125,9 @@
 
 # define JULIA 			0
 # define MANDELBROT 	1
-# define UNNAMED1		2
-# define UNNAMED2		3
+# define HEART			2
+# define MYSTERY		3
+# define UNNAMED		4
 
 # define ZOOM 1.1
 
@@ -147,7 +148,7 @@ typedef struct		s_complex
 typedef	struct		s_pixel
 {
 	double			r;
-	int 			k;
+	int				k;
 }					t_pixel;
 
 typedef	struct		s_picture
@@ -160,15 +161,15 @@ typedef	struct		s_picture
 	int				size_line;
 	int				endian;
 	int				width;
-	int 			height;
+	int				height;
 }					t_picture;
 
-typedef	struct		s_fractol t_fractol;
+typedef	struct s_fractol	t_fractol;
 
 typedef struct		s_thread
 {
 	t_fractol		*fractol;
-	int 			thread_id;
+	int				thread_id;
 }					t_thread;
 
 typedef	struct		s_process
@@ -177,7 +178,7 @@ typedef	struct		s_process
 	t_thread		threads_data[NUM_PROC];
 }					t_process;
 
-struct		s_fractol
+struct				s_fractol
 {
 	int				mouse_status;
 	t_picture		*picture;
@@ -187,14 +188,14 @@ struct		s_fractol
 	t_complex		mouse_pos;
 	t_complex		mouse_prevpos;
 	t_pixel			*pixel_data;
-	int 			color;
-	int 			fract;
+	int				color;
+	int				fract;
 	double			zoom;
 	t_complex		offset;
 	int				cycle;
 	t_process		process;
 	double			r;
-	int 			k;
+	int				k;
 };
 
 typedef struct		s_palette
@@ -204,7 +205,7 @@ typedef struct		s_palette
 	int				colors[32];
 }					t_palette;
 
-typedef t_pixel (*ft_fract)(int x, int y, t_fractol *fractol);
+typedef	t_pixel		(*t_fract)(int x, int y, t_fractol *fractol);
 
 void				ft_puterr(char *str);
 int					min(int a, int b);
@@ -227,9 +228,13 @@ void				error(char *s);
 t_picture			*picture_init(char *str, int width, int height);
 t_pixel				mandelbrot(int x, int y, t_fractol *fractol);
 t_pixel				julia(int x, int y, t_fractol *fractol);
-t_pixel				unnamed1(int x, int y, t_fractol *fractol);
-t_pixel				unnamed2(int x, int y, t_fractol *fractol);
+t_pixel				heart(int x, int y, t_fractol *fractol);
+t_pixel				mystery(int x, int y, t_fractol *fractol);
+t_pixel				unnamed(int x, int y, t_fractol *fractol);
 void				zoom(int x, int y, t_fractol *fractol, double zoom);
 int					linear_color(int i, t_palette *p);
 int					get_linear_color(t_pixel p, t_fractol *fractol);
+void				color(int keycode, t_fractol *fractol);
+void				reset(t_fractol *fractol);
+t_complex			to_complex(int x, int y, t_fractol *fractol);
 #endif
